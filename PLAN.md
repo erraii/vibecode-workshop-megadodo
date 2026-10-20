@@ -39,10 +39,12 @@ Milestone lead: `/root/m1_lead` (fresh session, assigned 2026-10-20). Human owne
 
 | Step | Outcome | Depends on | Human owner | State / PR |
 |---|---|---|---|---|
-| M1.1 | Our fork runs at the assigned URL and reports its deployed revision | Team access and explicit release | Atousa | local audit passed; hosted evidence pending |
-| M1.2 | An organiser creates an exchange with a budget; participants join and save wishlists | M1.1 local baseline audit | Eray (exchange/join); Monir (wishlists/data) | merged into main at e163d07 (PR #2); prior authentication blocker resolved externally |
-| M1.3 | Participants privately receive stable gift assignments and recipient wishlists | M1.2 | Aysegul | independently APPROVED at ea3cd0f; awaiting team-fork PR, partner acceptance and passing CI |
+| M1.1 | Our fork runs at the assigned URL and reports its deployed revision | Team access and explicit release | Atousa | partial app hosted and revision verified; teammate access/phone observation pending |
+| M1.2 | An organiser creates an exchange with a budget; participants join and save wishlists | M1.1 local baseline audit | Eray (exchange/join); Monir (wishlists/data) | merged [PR #1](https://github.com/erraii/vibecode-workshop-megadodo/pull/1); partial app released e163d07 |
+| M1.3 | Participants privately receive stable gift assignments and recipient wishlists | M1.2 | Aysegul | independently approved ea3cd0f; integrated for combined M1.6 review |
 | M1.4 | A teammate can complete the whole journey; observed failures are corrected | M1.3 | Atousa | planned |
+| M1.5 | Current create/join/wishlist journey is clear, welcoming and accessible | reviewed M1.2 main | Eray | independently approved 6355c00; integrated for combined M1.6 review |
+| M1.6 | Integrate reviewed draw and UX branches and release the complete journey | M1.3, M1.5 | Eray | integration validation; combined independent review required; release authorised |
 
 Sequencing decision (2026-10-20, project lead): local M1.2 work may proceed after M1.1 starter/deployment-contract audit. Hosted M1.1 acceptance remains required for the milestone and waits for assigned access and explicit release approval; this does not authorise deployment. IDs and product scope are unchanged.
 
@@ -78,6 +80,10 @@ Agreed acceptance, using the confirmed private-link and secrecy decisions:
 ### M1.4 — Feedback
 
 Have all four teammates complete create → join → wishlist → draw → private reveal on desktop and phone widths. Check budget visibility, secrecy between sessions, unchanged assignments after reload and restart, and a wishlist update after the draw. Record observed problems and corrections; do not invent feedback. Verify the intended hosted revision only following explicit release approval. Add new scope as a new step.
+
+### M1.5 — Gifting UX refinement
+
+Human requested better UX on 2026-10-20. Refine the existing create/join/wishlist flow with clear role-specific headings, prominent euro budget and actions, warm cards, useful states and phone accessibility. Explain before creation that the draw is not yet available. Fix stale empty-wishlist copy after saving. Preserve backend, private-link boundaries and durable data; no draw implementation. Branch `m1.5-gifting-ux` from reviewed/deployed main e163d07. Actual desktop/phone review required. Prior push authorisation applies; a fresh UX deployment is not authorised.
 
 ## M2 — Improve the demonstrated journey
 

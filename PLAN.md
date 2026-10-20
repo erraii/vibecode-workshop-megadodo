@@ -43,7 +43,7 @@ Milestone lead: `/root/m1_lead` (fresh session, assigned 2026-10-20). Human owne
 | M1.2 | An organiser creates an exchange with a budget; participants join and save wishlists | M1.1 local baseline audit | Eray (exchange/join); Monir (wishlists/data) | merged [PR #1](https://github.com/erraii/vibecode-workshop-megadodo/pull/1); partial app released e163d07 |
 | M1.3 | Participants privately receive stable gift assignments and recipient wishlists | M1.2 | Aysegul | planned |
 | M1.4 | A teammate can complete the whole journey; observed failures are corrected | M1.3 | Atousa | planned |
-| M1.5 | Current create/join/wishlist journey is clear, welcoming and accessible | reviewed M1.2 main | Eray | implemented e2ed482; local tests/browser passed; independent review pending; no fresh release authorised |
+| M1.5 | Current create/join/wishlist journey is clear, welcoming and accessible | reviewed M1.2 main | Eray | independently approved 6355c00; ready branch/PR; no fresh release authorised |
 
 Sequencing decision (2026-10-20, project lead): local M1.2 work may proceed after M1.1 starter/deployment-contract audit. Hosted M1.1 acceptance remains required for the milestone and waits for assigned access and explicit release approval; this does not authorise deployment. IDs and product scope are unchanged.
 

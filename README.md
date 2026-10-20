@@ -65,3 +65,9 @@ Your team may change frameworks (e.g. Next.js, Vite) after updating the run, bui
 6. Deployment runs `npm test` first and refuses on failure. When you replace or delete the starter's `server.mjs`, delete or rewrite `test/app.test.mjs` (which imports `server.mjs`), and keep `test/deploy.test.mjs` (set `"test": "node --test test/deploy.test.mjs"` or your framework test runner).
 
 See [deployment guide](docs/deploy.md) for proven copy-paste recipes for Next.js 16 and static Vite SPAs. Keep the first useful demo small. [Organiser preflight](docs/organiser.md) lists what must be verified before handing this starter to students.
+
+## Secret Santa data and access
+
+Start with `npm start`. The organiser creates an exchange with a per-gift EUR limit, shares the invitation, and keeps the organiser link private. Participants receive a separate private link for editing their wishlist. Links use URL fragments so credentials are not sent in navigation URLs/referrers; API requests use the credential, so do not enable URL logging on API routes. Anyone holding a private link can use it; M1 has no recovery. Drawing is a subsequent milestone step.
+
+Data defaults to `~/.local/share/vibecode-workshop/data/exchanges.json`, outside deployment releases. Override with an absolute `DATA_DIR` if needed; preserve this directory across releases and back it up securely. The directory/file are created with owner-only permissions. Do not place it under `public/` or commit it. This file store supports one app process, with serialised transactions and atomic replacement; do not run multiple app instances against it. Tests use isolated temporary data directories.

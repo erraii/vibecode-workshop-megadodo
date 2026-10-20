@@ -45,7 +45,7 @@ Milestone lead: `/root/m1_lead` (fresh session, assigned 2026-10-20). Human owne
 | M1.4 | A teammate can complete the whole journey; observed failures are corrected | M1.3 | Atousa | hosted automated four-context desktop/phone passed; human teammate acceptance pending |
 | M1.5 | Current create/join/wishlist journey is clear, welcoming and accessible | reviewed M1.2 main | Eray | integrated and released be85928; hosted desktop/phone verified |
 | M1.6 | Integrate reviewed draw and UX branches and release the complete journey | M1.3, M1.5 | Eray | independently APPROVED cb22877; merged/released be85928; hosted full journey passed |
-| M1.7 | Supplied holiday background, readable desktop and phone views | M1.6 | Eray | implementation validation; independent review then authorised release |
+| M1.7 | Supplied holiday background, readable desktop and phone views | M1.6 | Eray | independently approved; merged and deployed d27b6dc; 25 tests and hosted desktop/phone checks passed; evidence .ai/work/M1.7/deployment.md |
 
 Sequencing decision (2026-10-20, project lead): local M1.2 work may proceed after M1.1 starter/deployment-contract audit. Hosted M1.1 acceptance remains required for the milestone and waits for assigned access and explicit release approval; this does not authorise deployment. IDs and product scope are unchanged.
 

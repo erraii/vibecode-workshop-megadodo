@@ -21,7 +21,7 @@ Milestone lead: `/root/m1_lead` (fresh session, assigned 2026-10-20). Human owne
 | Step | Outcome | Depends on | Human owner | State / PR |
 |---|---|---|---|---|
 | M1.1 | Our fork runs at the assigned URL and reports its deployed revision | Team access and explicit release | Eray | local audit passed; hosted evidence pending |
-| M1.2 | An organiser creates an exchange with a budget; participants join and save wishlists | M1.1 local baseline audit | Eray | brief ready |
+| M1.2 | An organiser creates an exchange with a budget; participants join and save wishlists | M1.1 local baseline audit | Eray | independently approved; branch pushed; PR/merge blocked by GitHub API authentication |
 | M1.3 | Participants privately receive stable gift assignments and recipient wishlists | M1.2 | Eray | planned |
 | M1.4 | A teammate can complete the whole journey; observed failures are corrected | M1.3 | Eray | planned |
 

@@ -22,7 +22,7 @@ Eray remains accountable for M1 overall. These are four human-owned tasks within
 |---|---|---|---|
 | Eray | Exchange creation and joining: exchange name, EUR budget, separate organiser/invitation links and participant roster | M1.2 | Merged into main at e163d07; exchange creation/joining available. |
 | Monir | Wishlists and saved data: private wishlist editing, access boundaries and persistence across reload/restart | M1.2 component | Implemented in the same reviewed branch. Verify the existing work rather than rebuild it; address the documented stale empty-wishlist message through a new brief and reviewed change if needed. |
-| Aysegul | Secret draw and private reveal: no self-matches, one giver/recipient each, draw once, close joining, hide other matches | M1.3 | Implemented locally on m1.3-secret-draw; validation complete, independent review and team-fork PR pending. |
+| Aysegul | Secret draw and private reveal: no self-matches, one giver/recipient each, draw once, close joining, hide other matches | M1.3 | Implemented and independently APPROVED at ea3cd0f on m1.3-secret-draw; PR integration requires partner acceptance and passing CI. |
 | Atousa | Whole-journey verification and release preparation: desktop/phone, four participant sessions, persistence checks and hosted revision evidence | M1.4; M1.1 evidence | Prepare the test journey and environment checklist now. Run full acceptance after M1.3; hosted checks and deployment require assigned access and explicit release instruction. |
 
 ### How each member starts
@@ -41,7 +41,7 @@ Milestone lead: `/root/m1_lead` (fresh session, assigned 2026-10-20). Human owne
 |---|---|---|---|---|
 | M1.1 | Our fork runs at the assigned URL and reports its deployed revision | Team access and explicit release | Atousa | local audit passed; hosted evidence pending |
 | M1.2 | An organiser creates an exchange with a budget; participants join and save wishlists | M1.1 local baseline audit | Eray (exchange/join); Monir (wishlists/data) | merged into main at e163d07 (PR #2); prior authentication blocker resolved externally |
-| M1.3 | Participants privately receive stable gift assignments and recipient wishlists | M1.2 | Aysegul | implemented locally; awaiting independent review and PR |
+| M1.3 | Participants privately receive stable gift assignments and recipient wishlists | M1.2 | Aysegul | independently APPROVED at ea3cd0f; awaiting team-fork PR, partner acceptance and passing CI |
 | M1.4 | A teammate can complete the whole journey; observed failures are corrected | M1.3 | Atousa | planned |
 
 Sequencing decision (2026-10-20, project lead): local M1.2 work may proceed after M1.1 starter/deployment-contract audit. Hosted M1.1 acceptance remains required for the milestone and waits for assigned access and explicit release approval; this does not authorise deployment. IDs and product scope are unchanged.

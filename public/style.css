@@ -35,3 +35,5 @@ input:focus-visible, textarea:focus-visible, button:focus-visible { outline: 3px
 .budget { font-size: 1.4rem; color: #ff8b54 !important; font-weight: 700; }
 #message { color: #ffc197; min-height: 1.5rem; line-height: 1.6; }
 h2, h3, p { overflow-wrap: anywhere; }
+
+.recipient-wishlist { white-space: pre-wrap; }

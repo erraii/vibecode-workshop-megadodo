@@ -1,6 +1,6 @@
 # M1.7 coder validation
 
-Base: 316cdf5e1dc0d3a0b26c60fb2935f144b5ce5abd. Exact implementation head follows in evidence-only commit.
+Base: 316cdf5e1dc0d3a0b26c60fb2935f144b5ce5abd. Implementation head: 9e006be7d3a20cda7f0ea73ac69eff6655575ccc. This follow-up changes evidence only.
 
 Exact supplied source copied unchanged. SHA256: 242edf6d8efdcb74b661dc8ddbb185cd35e7b20368fc30fce6c9dd90cb73282c. Server explicitly whitelists /background.png with image/png. Responsive full-width artwork repeats vertically over full page; translucent main surface and existing opaque forms maintain readability. No draw/data/deployment changes.
 

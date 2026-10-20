@@ -37,3 +37,5 @@ Combined release COMPLETE: normal authorised integration main be8592867dc0f07538
 M1.7 current focus: exact supplied holiday artwork integrated as public background asset in isolated /tmp clone; no other product changes. Independent review and separate authorised release follow validation. Original dirty notes and credentials preserved.
 
 M1.7 independent review APPROVED d3ad028cd39f3f60c3968a675caaadd581295a01 against316cdf5e1dc0d3a0b26c60fb2935f144b5ce5abd. Independent25/25 tests, exact supplied asset SHA256, actual desktop1365/phone390 create/join/save and regenerated visual evidence pass. Review/session/screenshots uncommitted for separate committer; writer released. No code edits/merge/deploy; supported guest and hosted asset/revision acceptance remain release checks.
+
+M1.7 RELEASED d27b6dc87dc8376b657eee22c9ea587192c98427: reviewed original holiday background live. GuestNode24/25tests, exact localhealth/publicsmoke, public PNG200/image/png/source SHA and real hosted desktop/phone create/join/save sanity PASS. Evidence .ai/work/M1.7/deployment.md; screenshot visually inspected. No data/workshop/key changes. Subsequent evidence docs-only.

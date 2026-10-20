@@ -1,4 +1,5 @@
 import http from 'node:http';
+import { randomInt } from 'node:crypto';
 import { createStore, defaultDataDir, token } from './store.mjs';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -54,6 +55,7 @@ export function createApp({ revision = process.env.APP_REVISION || 'development'
           const participant = role === 'participant' ? exchange.participants.find(p => p.credential === credential) : null;
           if (req.method === 'POST') {
             if (role === 'invite') {
+              if (exchange.drawn) { const error = new Error('The draw is complete. Joining is closed.'); error.status = 409; throw error; }
               if (!clean(body.name, 80)) fail('Enter your name (up to 80 characters).');
               const name = body.name.trim().normalize('NFKC');
               if (exchange.participants.some(p => p.name.toLowerCase() === name.toLowerCase())) fail('That name is taken. Add a surname or initial so everyone is distinguishable.');
@@ -61,13 +63,34 @@ export function createApp({ revision = process.env.APP_REVISION || 'development'
               exchange.participants.push(joined);
               return { write: true, value: { participant: joined.credential } };
             }
-            if (role !== 'participant') { const error = new Error('Only a participant private link can edit a wishlist.'); error.status = 403; throw error; }
-            if (typeof body.wishlist !== 'string' || body.wishlist.length > 5000) fail('Keep your wishlist within 5000 characters.');
-            participant.wishlist = body.wishlist;
+            if (role === 'manage' && body.action === 'draw') {
+              if (!exchange.drawn) {
+                if (exchange.participants.length < 3) fail('At least three participants must join before drawing.');
+                // Rejection sampling gives each valid permutation equal probability.
+                let recipients;
+                do {
+                  recipients = [...exchange.participants];
+                  for (let i = recipients.length - 1; i > 0; i--) {
+                    const j = randomInt(i + 1);
+                    [recipients[i], recipients[j]] = [recipients[j], recipients[i]];
+                  }
+                } while (recipients.some((p, i) => p === exchange.participants[i]));
+                exchange.participants.forEach((p, i) => { p.recipient = recipients[i].credential; });
+                exchange.drawn = true;
+              }
+            } else {
+              if (role !== 'participant') { const error = new Error('Only a participant private link can edit a wishlist.'); error.status = 403; throw error; }
+              if (typeof body.wishlist !== 'string' || body.wishlist.length > 5000) fail('Keep your wishlist within 5000 characters.');
+              participant.wishlist = body.wishlist;
+            }
           }
-          const view = { name: exchange.name, budgetCents: exchange.budgetCents, participants: exchange.participants.map(p => p.name) };
+          const view = { drawn: Boolean(exchange.drawn), name: exchange.name, budgetCents: exchange.budgetCents, participants: exchange.participants.map(p => p.name) };
           if (role === 'manage') view.invitation = exchange.invitation;
-          if (participant) view.self = { name: participant.name, wishlist: participant.wishlist };
+          if (participant) {
+            view.self = { name: participant.name, wishlist: participant.wishlist };
+            const recipient = exchange.drawn && exchange.participants.find(p => p.credential === participant.recipient);
+            if (recipient) view.recipient = { name: recipient.name, wishlist: recipient.wishlist };
+          }
           return { write: req.method === 'POST', value: view };
         });
         return send(200, value);

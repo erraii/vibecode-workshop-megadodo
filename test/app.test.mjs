@@ -22,6 +22,15 @@ test('page, CSS and health are reachable and health identifies the served revisi
   assert.deepEqual(await health.json(), { ok: true, revision: 'test-revision' });
 });
 
+test('supplied background is served unchanged as a PNG', async t => {
+  const { readFile } = await import('node:fs/promises');
+  const origin = await fixture(t);
+  const response = await fetch(`${origin}/background.png`);
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get('content-type'), 'image/png');
+  assert.deepEqual(Buffer.from(await response.arrayBuffer()), await readFile(new URL('../public/background.png', import.meta.url)));
+});
+
 test('repository files and traversal requests cannot be downloaded', async t => {
   const origin = await fixture(t);
   for (const path of ['/.env', '/AGENTS.md', '/package.json', '/.git/config', '/%2e%2e/.env', '/public/../server.mjs']) {

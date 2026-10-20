@@ -8,6 +8,7 @@ const assets = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
   ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
   ['/style.css', ['style.css', 'text/css; charset=utf-8']],
+  ['/background.png', ['background.png', 'image/png']],
 ]);
 
 export function createApp({ revision = process.env.APP_REVISION || 'development', dataDir = defaultDataDir() } = {}) {

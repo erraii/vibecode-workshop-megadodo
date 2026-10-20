@@ -1,0 +1,3 @@
+# Partial release handoff
+
+Human authorised current app merge/deployment without draw. Found human-merged fork PRs #1/#2. Deployed reviewed main e163d0711cd33f7d7011ad89e60c71efda907d3f. Guest checks 22/22, deploy helper, exact local/public health and hosted desktop/phone browser create/join/private wishlist journey passed. Full evidence .ai/work/M1.2/deployment.md. Existing guest checkout preserved, separate team clone used. No app implementation edits or data deletions. Draw/full teammate milestone acceptance pending. Bootstrap key/known-host files remain untracked: never stage them. Deployment evidence/docs currently uncommitted for lead integration; no claim documentation has merged.

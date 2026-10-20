@@ -21,93 +21,110 @@ function field(form, label, name, options = {}) {
 }
 function form(buttonText, submit) {
   const form = element('form');
+  const feedback = element('p', '', form); feedback.className = 'feedback'; feedback.setAttribute('role', 'status'); feedback.setAttribute('aria-live', 'polite');
   const button = element('button', buttonText, form);
   form.addEventListener('submit', async event => {
-    event.preventDefault(); button.disabled = true; message.textContent = '';
+    event.preventDefault(); button.disabled = true; button.textContent = 'One moment…'; feedback.textContent = ''; message.textContent = '';
     try { await submit(new FormData(form)); }
-    catch (error) { message.textContent = error.message; }
-    finally { button.disabled = false; }
+    catch (error) { feedback.textContent = error.message; }
+    finally { button.disabled = false; button.textContent = buttonText; }
   });
+  form.append(feedback);
   return form;
 }
-function saveLink(title, url) {
+function saveLink(title, url, description) {
   const section = element('section');
-  element('h3', title, section);
+  element('h2', title, section);
+  element('p', description, section);
   const input = field(section, title, 'link', { value: url, readOnly: true });
   input.addEventListener('click', () => input.select());
+  const feedback = element('p', '', section); feedback.className = 'feedback'; feedback.setAttribute('role', 'status');
   const copy = element('button', 'Copy link', section); copy.type = 'button';
   copy.addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(url); message.textContent = 'Link copied.'; }
-    catch { input.select(); message.textContent = 'Select and copy the link above.'; }
+    try { await navigator.clipboard.writeText(url); feedback.textContent = 'Link copied. Ready to paste.'; }
+    catch { input.select(); feedback.textContent = 'Copy unavailable. Select and copy the link above.'; }
   });
 }
 function go(kind, key) { location.hash = `${kind}/${key}`; location.reload(); }
 async function render() {
   root.replaceChildren();
   if (!role && !credential) {
+    element('p', 'A little thought goes a long way').className = 'eyebrow';
+    element('h1', 'Make someone’s day.');
+    element('p', 'Set a shared euro budget, invite your people and gather gift ideas in one cosy place.').className = 'intro';
+    const steps = element('ol'); steps.className = 'steps';
+    ['Set the budget', 'Invite and add wishes', 'Draw gift partners'].forEach(text => element('li', text, steps));
+    element('p', 'Invite at least three people, collect their wishes, then draw once. Each person privately discovers whom to buy for.').className = 'notice';
     element('h2', 'Start your exchange');
     const create = form('Create exchange', async values => {
       const result = await request('/api/exchanges', Object.fromEntries(values)); go('manage', result.organiser);
     });
-    const button = create.firstChild;
+    const button = create.querySelector('button');
     field(create, 'Exchange name', 'name', { required: true, maxLength: 100, placeholder: 'Friends’ festive exchange' });
     field(create, 'Budget per gift (€)', 'budget', { required: true, type: 'number', min: '0.01', max: '999999.99', step: '0.01', placeholder: '25.00' });
-    create.append(button);
+    create.append(button, create.querySelector('.feedback'));
     element('p', 'Set a euro spending limit, invite your people, and collect their wishes.');
     return;
   }
   if (!['manage', 'invite', 'participant'].includes(role) || !/^[a-f0-9]{64}$/.test(credential || '') || route.length !== 2) throw new Error('This link is incomplete or invalid. Ask for the complete link.');
+  const loading = element('p', 'Unwrapping your exchange…'); loading.setAttribute('role', 'status');
   const view = await request(apiPath);
-  element('h2', view.name);
+  loading.remove();
+  element('p', { manage: 'Your organiser space', invite: 'You’re invited', participant: 'Your wishlist space' }[role]).className = 'eyebrow';
+  element('h1', view.name);
   element('p', `${euro(view.budgetCents)} per gift · EUR spending limit`).className = 'budget';
   if (role === 'manage') {
-    element('h3', 'Your exchange is ready');
+    element('h2', 'Invite your people');
     element('p', 'Share the invitation below. Everyone, including you if you are taking part, joins through that link.');
-    saveLink('Invitation — share with participants', link('invite', view.invitation));
+    saveLink('Invitation — share with your group', link('invite', view.invitation), 'Send this link to everyone taking part. Each person gets a separate private wishlist link.');
     const join = element('a', 'Join as a participant'); join.href = link('invite', view.invitation);
-    saveLink('Organiser link — keep private', location.href);
+    saveLink('Organiser link — just for you', location.href, 'Save this separately from the invitation. Anyone with it can manage the exchange.');
     element('p', 'Anyone holding your organiser link has management access. Save it now: lost private links cannot be recovered.');
-    element('h3', `${view.participants.length} participants`);
+    element('h2', `${view.participants.length} ${view.participants.length === 1 ? 'participant' : 'participants'}`);
     element('p', view.participants.length ? view.participants.join(', ') : 'No one has joined yet. Send the invitation to get started.');
     if (view.drawn) {
-      element('h3', 'The draw is complete');
+      element('h2', 'The draw is complete');
       element('p', 'Joining is closed. Each participant can open their private link to see their recipient. Matches stay private, including from the organiser.');
     } else {
       element('p', view.participants.length < 3 ? 'At least three participants must join before drawing. Refresh this page after people join.' : 'Ready to draw. This closes joining permanently. Everyone keeps their private link to see their recipient.');
       const draw = form('Draw gift partners', async () => { await request(apiPath, { action: 'draw' }); await render(); });
-      draw.firstChild.disabled = view.participants.length < 3;
+      draw.querySelector('button').disabled = view.participants.length < 3;
     }
   } else if (role === 'invite') {
     if (view.drawn) {
-      element('h3', 'Joining is closed');
+      element('h2', 'Joining is closed');
       element('p', 'The gift draw is complete. If you already joined, open your saved private link to see your recipient and edit your wishlist.');
       return;
     }
-    element('h3', 'Join the exchange');
+    element('h2', 'A thoughtful gift starts with you');
     element('p', 'Use a name your group will recognise. You’ll receive your own private wishlist link.');
     const join = form('Join exchange', async values => { const result = await request(apiPath, Object.fromEntries(values)); go('participant', result.participant); });
-    const button = join.firstChild;
-    field(join, 'Your name', 'name', { required: true, maxLength: 80, autocomplete: 'name' }); join.append(button);
-    element('p', `${view.participants.length} people have joined.`);
+    const button = join.querySelector('button');
+    field(join, 'Your name', 'name', { required: true, maxLength: 80, autocomplete: 'name' }); join.append(button, join.querySelector('.feedback'));
+    element('p', view.participants.length === 1 ? '1 person has joined.' : `${view.participants.length} people have joined.`);
   } else {
     if (view.recipient) {
       const reveal = element('section');
-      element('h3', `You’re buying for ${view.recipient.name}`, reveal);
+      element('h2', `You’re buying for ${view.recipient.name}`, reveal);
       element('p', view.recipient.wishlist || 'Their wishlist is empty. Check back later for their wishes.', reveal).className = 'recipient-wishlist';
       element('p', 'Your match stays the same. Refresh to see their latest wishlist.', reveal);
     } else {
-      element('h3', 'Your recipient is a secret for now');
+      element('h2', 'Your recipient is a secret for now');
       element('p', 'The organiser has not drawn yet. Save your link and refresh after the draw.');
     }
-    element('h3', `${view.self.name}’s wishlist`);
-    element('p', view.self.wishlist ? 'Your saved wishes are below. You can update them any time.' : 'Your wishlist is empty. Add ideas, sizes or preferences to help your gift giver.');
-    const wishlist = form('Save wishlist', async values => { await request(apiPath, Object.fromEntries(values)); await render(); message.textContent = 'Wishlist saved.'; });
-    const button = wishlist.firstChild;
-    field(wishlist, 'What would you love?', 'wishlist', { area: true, value: view.self.wishlist, maxLength: 5000, rows: 7 }); wishlist.append(button);
+    element('h2', `${view.self.name}’s wishlist`);
+    const wishlistStatus = element('p', view.self.wishlist ? 'Your saved wishes are below. You can update them any time.' : 'Your wishlist is empty. Add ideas, sizes or preferences to help your gift giver.');
+    const wishlist = form('Save wishlist', async values => {
+      await request(apiPath, Object.fromEntries(values));
+      wishlistStatus.textContent = String(values.get('wishlist')).trim() ? 'Your saved wishes are below. You can update them any time.' : 'Your wishlist is empty. Add ideas, sizes or preferences to help your gift giver.';
+      wishlist.querySelector('.feedback').textContent = 'Wishlist saved. You can come back and edit it any time.';
+    });
+    const button = wishlist.querySelector('button');
+    field(wishlist, 'What would you love?', 'wishlist', { area: true, value: view.self.wishlist, maxLength: 5000, rows: 7 }); wishlist.append(button, wishlist.querySelector('.feedback'));
     element('p', 'The budget is a spending limit; wishlist prices are not checked.');
-    saveLink('Your private link — keep safe', location.href);
+    saveLink('Your private link — keep safe', location.href, 'Bookmark this link to return to your wishlist. It belongs to you, so keep it private.');
     element('p', 'Anyone holding this link can see your recipient and read and edit your wishlist. Save it now: lost links cannot be recovered.');
   }
 }
-render().catch(error => { root.replaceChildren(); element('h2', 'We couldn’t open this exchange'); message.textContent = error.message; const home = element('a', 'Start a new exchange'); home.href = '/'; });
+render().catch(error => { root.replaceChildren(); element('h1', 'We couldn’t open this exchange'); message.textContent = error.message; const home = element('a', 'Start a new exchange'); home.href = '/'; });
 window.addEventListener('hashchange', () => location.reload());

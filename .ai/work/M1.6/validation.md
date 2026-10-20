@@ -1,6 +1,6 @@
 # M1.6 coder validation
 
-Base: e163d0711cd33f7d7011ad89e60c71efda907d3f. Combined implementation head: the merge commit containing this evidence (resolve with `git log --merges -1`); exact SHA appended in follow-up evidence commit.
+Base: e163d0711cd33f7d7011ad89e60c71efda907d3f. Combined implementation head: 97fb616255f325475dbc8e3f3363638b04357165. This follow-up changes evidence only.
 
 Normal fast-forward of draw head 3be25ba, then normal merge of UX head 3dab120 preserves both ancestries. Resolved app.js/style/PLAN/context conflicts: retain warm UX and local feedback, add draw/reveal/closed joining with h2 hierarchy; min-three disabling targets button rather than feedback paragraph. Replaced obsolete draw-unavailable copy. Backend and deployment contracts unchanged from reviewed draw branch.
 
